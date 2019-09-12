@@ -32,7 +32,7 @@ namespace FundaWebApplication
             });
 
             // Add funda service as transient
-            // services.AddTransient<IFundaService, FundaService>();
+            services.AddTransient<IFundaService, FundaService>();
 
             // Configure the client with polly's retry policy
             services.AddHttpClient<IFundaService, FundaService>()
