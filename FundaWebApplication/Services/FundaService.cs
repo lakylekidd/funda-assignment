@@ -30,30 +30,37 @@ namespace FundaWebApplication.Services
             // Initialize the http client
             using (_httpClient)
             {
+                // Define a list of tasks to run all requests in parallel
+                List<Task<string>> requestResults = new List<Task<string>>();
+
                 // Retrieve the initial page and get results as JSON
                 var json = await _httpClient.GetStringAsync(url);
                 // Convert the resulted JSON into a search result model
                 var result = JsonConvert.DeserializeObject<SearchResultModel>(json);
+                // Add the properties to the list
+                properties.AddRange(result.Objects);
+
                 // Loop through pages and call remaining results
                 for (int i = 1; i <= result.Paging.AantalPaginas; i++)
                 {
-                    // Add all the properties in the list
-                    properties.AddRange(result.Objects);
-                    try
-                    {
-                        // Construct the next url query
-                        url = generateUrlQueryString(type, location, i + 1);
-                        // Retrieve the next page and get results as JSON
-                        json = await _httpClient.GetStringAsync(url);
-                        // Convert the resulted JSON into a search result model
-                        result = JsonConvert.DeserializeObject<SearchResultModel>(json);
-                    }
-                    catch(HttpRequestException)
-                    {
-                        // For now we are returning the properties we managed to retrieve
-                        return properties;
-                    }
+                    // Construct the next url query
+                    url = generateUrlQueryString(type, location, i + 1);
+                    // Retrieve the next task for the next page and get results as JSON when done
+                    requestResults.Add(_httpClient.GetStringAsync(url));
                 }
+
+                // Wait until all tasks are complete
+                var requestResultsString = await Task.WhenAll(requestResults);
+
+                // Convert each json string into an object
+                foreach (var jsonString in requestResultsString)
+                {
+                    // Convert the resulted JSON into a search result model
+                    result = JsonConvert.DeserializeObject<SearchResultModel>(json);
+                    // Add the properties to the list
+                    properties.AddRange(result.Objects);
+                }
+
                 // Return the retrieved properties
                 return properties;
             }
@@ -82,7 +89,11 @@ namespace FundaWebApplication.Services
             return agencies.OrderByDescending(x => x.Properties.Count()).ToList();
         }
 
-
+        private async Task<string> requestResultTask(string url)
+        {
+            // Retrieve the next page and get results as JSON
+            return await _httpClient.GetStringAsync(url);
+        }
 
         /// <summary>
         /// Private function that constructs a url with a query string based on provided type and location
