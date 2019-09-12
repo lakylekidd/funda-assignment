@@ -25,6 +25,6 @@
         /// <summary>
         /// The total price of the property
         /// </summary>
-        public int KoopprijsTot { get; set; }
+        public int? KoopprijsTot { get; set; }
     }
 }

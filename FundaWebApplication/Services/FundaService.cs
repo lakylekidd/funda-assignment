@@ -19,8 +19,11 @@ namespace FundaWebApplication.Services
 
         }
 
-        public async Task<SearchResultModel> Get(string type, string location)
+        public async Task<List<PropertyModel>> Get(string type, string location)
         {
+            // Create a list that will hold a list of all properties in the query
+            var properties = new List<PropertyModel>();
+
             // Construct the query string by calling the first page
             var url = generateUrlQueryString(type, location);
 
@@ -34,10 +37,25 @@ namespace FundaWebApplication.Services
                 // Loop through pages and call remaining results
                 for (int i = 1; i <= result.Paging.AantalPaginas; i++)
                 {
-
+                    // Add all the properties in the list
+                    properties.AddRange(result.Objects);
+                    try
+                    {
+                        // Construct the next url query
+                        url = generateUrlQueryString(type, location, i + 1);
+                        // Retrieve the next page and get results as JSON
+                        json = await hc.GetStringAsync(url);
+                        // Convert the resulted JSON into a search result model
+                        result = JsonConvert.DeserializeObject<SearchResultModel>(json);
+                    }
+                    catch(HttpRequestException)
+                    {
+                        // For now we are returning the properties we managed to retrieve
+                        return properties;
+                    }
                 }
-
-                return result;
+                // Return the retrieved properties
+                return properties;
             }
         }
 
