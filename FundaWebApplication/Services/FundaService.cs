@@ -1,9 +1,7 @@
 ﻿using FundaWebApplication.Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,6 +12,11 @@ namespace FundaWebApplication.Services
         private readonly string _baseurl = "http://partnerapi.funda.nl/feeds/Aanbod.svc/json/";
         private readonly string _key = "ac1b0b1572524640a0ecc54de453ea9f";
         private readonly int _pageSize = 25;
+
+        public FundaService()
+        {
+
+        }
 
         public async Task<List<PropertyModel>> Get(string type, string location)
         {
