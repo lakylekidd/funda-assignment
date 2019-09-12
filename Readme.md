@@ -56,3 +56,7 @@ services.AddHttpClient<IFundaService, FundaService>()
     .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // Set the lifetime to 5 minutes
     .AddPolicyHandler(GetRetryPolicy());
 ```
+
+### Testing
+In order to test the application and make sure the new implementations work, I will be following [this article](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.2) 
+that explains how to better perform integration tests in .NET Core 2.2
