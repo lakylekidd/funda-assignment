@@ -17,3 +17,11 @@ that occur, so take both into account.
 We value creative problem-solving. If you are not sure about implementation details of the exercise, please remember: 
 It is more important to show your competencies than to get "the right answer". 
 Please explain your decisions and thought process.
+
+## Too many Requests
+While the API allows for configuring the number of properties to display in one result, there is a fixed limit of 25 properties.
+Even if the query includes `pageSize=n` where `n > 25`, the limit will still apply.
+
+In order to overcome this we will be implementing some policies based on the article  
+[Implement Http call retries with exponential bacckoff with HttpClientFactory and Polly policies](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 
+as this is the recommended approach for retries with exponential backoff.
