@@ -59,6 +59,13 @@ namespace FundaWebApplication.Services
             }
         }
 
+        public async Task<List<ResultByAgencyModel>> GetAgenciesWithMostPropertiesForSale(string location)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         /// <summary>
         /// Private function that constructs a url with a query string based on provided type and location
         /// </summary>
