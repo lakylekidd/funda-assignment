@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using FundaWebApplication.Models;
+using System.Threading.Tasks;
 
 namespace FundaWebApplication.Services
 {
     public interface IFundaService
     {
-        Task<string> Get();
+        Task<PagingModel> Get();
     }
 }
