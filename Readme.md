@@ -36,11 +36,17 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 
     #region Status Codes for Retrying
         // Handle 500 status codes
-        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-        // Handle 502 status codes
-        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
-        // Handle 504 status codes
-        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                // Handle 502 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
+                // Handle 504 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+                // Handle 503 status codes 
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+                // Handle 429 status codes Too Many Requests
+                .OrResult(msg => (int)msg.StatusCode == 429)
+                // Handle 401 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.Unauthorized && msg.ReasonPhrase == "Request limit exceeded")
     #endregion
 
         // Will retry a maximum of 6 times
@@ -56,6 +62,14 @@ services.AddHttpClient<IFundaService, FundaService>()
     .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // Set the lifetime to 5 minutes
     .AddPolicyHandler(GetRetryPolicy());
 ```
+
+In order to prevent any errors, the policy will attempt to retry when the following status codes are encountered
+- 500 - Internal Server Error
+- 502 - Bad Gateway
+- 504 - Gateway Timeout
+- 503 - Service Unavailable
+- 429 - Too Many Requests
+- 401 - Unauthorized with Reason Phrase `Request limit exceeded`
 
 ### Testing
 In order to test the application and make sure the new implementations work, I will be following [this article](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.2) 

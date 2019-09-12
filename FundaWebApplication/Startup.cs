@@ -3,7 +3,6 @@ using System.Net.Http;
 using FundaWebApplication.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +24,7 @@ namespace FundaWebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add funda service as transient
-            services.AddTransient<IFundaService, FundaService>();
+            //services.AddTransient<IFundaService, FundaService>();
 
             // Configure the client with polly's retry policy
             services.AddHttpClient<IFundaService, FundaService>()
@@ -62,6 +61,12 @@ namespace FundaWebApplication
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
                 // Handle 504 status codes
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+                // Handle 503 status codes 
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+                // Handle 429 status codes Too Many Requests
+                .OrResult(msg => (int)msg.StatusCode == 429)
+                // Handle 401 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.Unauthorized && msg.ReasonPhrase == "Request limit exceeded")
             #endregion
                 // Will retry a maximum of 6 times
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
