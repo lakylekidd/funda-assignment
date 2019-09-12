@@ -27,6 +27,7 @@ namespace FundaWebApplication.Services
             // Initialize the http client
             using (HttpClient hc = new HttpClient())
             {
+                // Retrieve the initial page
                 var json = await hc.GetStringAsync(url);
                 // Test deserializer
                 var result = JsonConvert.DeserializeObject<SearchResultModel>(json);
@@ -39,11 +40,12 @@ namespace FundaWebApplication.Services
         /// </summary>
         /// <param name="type">The type of the listing</param>
         /// <param name="location">The location of the listing</param>
+        /// <param name="page">The current page to call</param>
         /// <returns></returns>
-        private string generateUrlQueryString(string type, string location)
+        private string generateUrlQueryString(string type, string location, int page = 1)
         {
             // Construct the query string
-            var query = $"?type={type}&zo={location}&pageSize={_pageSize}";
+            var query = $"?type={type}&zo={location}&pageSize={_pageSize}&page={page}";
             // Create the url query string
             var url = $"{_baseurl}{_key}/{query}";
             // Return the constructed url
