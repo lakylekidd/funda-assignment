@@ -71,14 +71,14 @@ namespace FundaWebApplication
         {
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
-                // Handle 404 status codes
-                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+            #region Status Codes for Retrying
                 // Handle 500 status codes
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 // Handle 502 status codes
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
                 // Handle 504 status codes
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+            #endregion
                 // Will retry a maximum of 6 times
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
