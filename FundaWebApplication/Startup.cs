@@ -1,15 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Http;
 using FundaWebApplication.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace FundaWebApplication
 {
@@ -35,6 +34,10 @@ namespace FundaWebApplication
             // Add funda service as transient
             services.AddTransient<IFundaService, FundaService>();
 
+            // Configure the client with polly's retry policy
+            services.AddHttpClient<IFundaService, FundaService>()
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // Set the lifetime to 5 minutes
+                .AddPolicyHandler(GetRetryPolicy());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -57,6 +60,26 @@ namespace FundaWebApplication
             app.UseCookiePolicy();
 
             app.UseMvc();
+        }
+
+        /// <summary>
+        /// It adds policies to the HttpClient objects we will be using.
+        /// This function adds polly's policy for Http Retries with exponential backoff.
+        /// </summary>
+        /// <returns></returns>
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                // Handle 404 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                // Handle 500 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                // Handle 502 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
+                // Handle 504 status codes
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
     }
 }
