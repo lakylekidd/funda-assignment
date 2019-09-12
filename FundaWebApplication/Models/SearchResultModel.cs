@@ -2,6 +2,10 @@
 
 namespace FundaWebApplication.Models
 {
+    /// <summary>
+    /// The search result model class contains details about the current search result
+    /// such as a list of <see cref="PropertyModel"/> and a <see cref="PagingModel"/>
+    /// </summary>
     public class SearchResultModel
     {
         /// <summary>
