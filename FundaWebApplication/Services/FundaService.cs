@@ -9,13 +9,14 @@ namespace FundaWebApplication.Services
 {
     public class FundaService : IFundaService
     {
+        private readonly HttpClient _httpClient;
         private readonly string _baseurl = "http://partnerapi.funda.nl/feeds/Aanbod.svc/json/";
         private readonly string _key = "ac1b0b1572524640a0ecc54de453ea9f";
         private readonly int _pageSize = 25;
 
-        public FundaService()
+        public FundaService(HttpClient httpClient)
         {
-
+            _httpClient = httpClient;
         }
 
         public async Task<List<PropertyModel>> Get(string type, string location)
@@ -27,10 +28,10 @@ namespace FundaWebApplication.Services
             var url = generateUrlQueryString(type, location);
 
             // Initialize the http client
-            using (HttpClient hc = new HttpClient())
+            using (_httpClient)
             {
                 // Retrieve the initial page and get results as JSON
-                var json = await hc.GetStringAsync(url);
+                var json = await _httpClient.GetStringAsync(url);
                 // Convert the resulted JSON into a search result model
                 var result = JsonConvert.DeserializeObject<SearchResultModel>(json);
                 // Loop through pages and call remaining results
@@ -43,7 +44,7 @@ namespace FundaWebApplication.Services
                         // Construct the next url query
                         url = generateUrlQueryString(type, location, i + 1);
                         // Retrieve the next page and get results as JSON
-                        json = await hc.GetStringAsync(url);
+                        json = await _httpClient.GetStringAsync(url);
                         // Convert the resulted JSON into a search result model
                         result = JsonConvert.DeserializeObject<SearchResultModel>(json);
                     }

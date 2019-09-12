@@ -1,5 +1,7 @@
 using FundaWebApplication.Models;
 using FundaWebApplication.Services;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -8,15 +10,14 @@ namespace FundaWebApplication.Tests
 {
     public class FundaServiceTest
     {
-        private readonly IFundaService _fundaService;
+        private IFundaService _fundaService;
 
         public FundaServiceTest()
         {
-            // Initialize the funda service instance
-            _fundaService = new FundaService();
+            _fundaService = new FundaService(new System.Net.Http.HttpClient());
         }
 
-        [Fact(DisplayName ="Get list of properties is not null")]
+        [Fact(DisplayName = "Get list of properties is not null")]
         public async Task GetProperties()
         {
             // Retrueve the properties
