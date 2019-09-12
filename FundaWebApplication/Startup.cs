@@ -43,8 +43,13 @@ namespace FundaWebApplication
             }
 
             // Use Cors
-            app.UseCors(
-                options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
+            app.UseCors(options =>
+                {
+                    // Adding multiple ports because client can be run using NPM, IIS or Console.
+                    options.WithOrigins("http://localhost:3000").AllowAnyMethod();
+                    options.WithOrigins("http://localhost:5000").AllowAnyMethod();
+                    options.WithOrigins("http://localhost:56219").AllowAnyMethod();
+                }
             );
 
             app.UseMvc();

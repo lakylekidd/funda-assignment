@@ -11,6 +11,14 @@ In order to run the project you will need the following installed
 Installing the project is straight forward:
 1. Clone the Repository by running `git clone https://github.com/lakylekidd/funda-assignment.git funda-project`
 2. Run `cd funda-project`
+3. Run `start Funda.sln`
+4. Right click on the project solution name and select `Set StartUp Projects...`
+5. In the new window select `Multiple startup projects`
+6. For `FundaReactClient` and `FundWebApplication` set action to `Start`
+7. Make sure `FundaWebApplication` is first on the list, use the arrows to arrange the order then click `OK`
+8. Select Start Without Debugging `Ctrl + F5`.
+
+Wait for the application to download all packages and npm modules and then the client browser window will launch
 
 ## Assignment Description
 Determine which makelaar's in Amsterdam have the most object listed for sale. Make a table of the top 10. 
