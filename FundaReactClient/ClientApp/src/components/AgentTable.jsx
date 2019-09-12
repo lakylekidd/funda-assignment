@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './AgentTable.css';
 
 export default class AgentTable extends Component {
 	/**
@@ -36,7 +37,7 @@ export default class AgentTable extends Component {
 		return (
 			<div className="agent-table">
 				{agents.length > 0 && this.renderAgentTabel(agents)}
-				{agents.length === 0 && 'Loading the top ten agents...'}
+				{agents.length === 0 && <p className="loading">Loading the top ten agents...</p>}
 			</div>
 		);
 	}

@@ -1,0 +1,30 @@
+h1 {
+	margin-bottom: 20px;
+	font-size: 24px;
+}
+p.loading {
+	background-color: rgb(166, 221, 166);
+	padding: 10px;
+	border: 1px solid rgb(125, 216, 125);
+	color: rgb(10, 78, 10);
+	font-weight: bold;
+	flex: 1;
+}
+table {
+	flex: 1;
+}
+table > thead {
+	background-color: rgb(211, 211, 211);
+}
+table > thead > tr > th,
+table > tbody > tr > td {
+	padding: 5px;
+	border: 1px solid rgb(211, 211, 211);
+}
+table > tbody > tr:hover {
+	transition: 0.1s linear;
+	background-color: rgb(230, 230, 230);
+}
+div.agent-table {
+	display: flex;
+}
