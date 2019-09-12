@@ -1,0 +1,29 @@
+﻿@page
+@model List<FundaWebApplication.Models.ResultByAgencyModel>
+
+@if (Model != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Agency ID</th>
+                <th>Name</th>
+                <th>Properties</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var agency in Model)
+            {
+                <tr>
+                    <td>@agency.MakelaarId</td>
+                    <td>@agency.MakelaarNaam.</td>
+                    <td>@agency.Properties.Count()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="label label-warning">Unable to retrieve top 10 Agencies at the moment. Try again later!</p>
+}
