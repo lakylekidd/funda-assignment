@@ -1,6 +1,17 @@
 # Funda Assignment
 This project contains the assignment from [Funda.nl](https://www.funda.nl/).
 
+## Requirements
+In order to run the project you will need the following installed
+- [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+- [Visual Studio](https://visualstudio.microsoft.com/downloads/) *Community version should be fine!
+- [NodeJS v10.16.6](https://nodejs.org/en/download/) *Should install with Visual Studio if you select Node project development
+
+## Installation
+Installing the project is straight forward:
+1. Clone the Repository by running `git clone https://github.com/lakylekidd/funda-assignment.git funda-project`
+2. Run `cd funda-project`
+
 ## Assignment Description
 Determine which makelaar's in Amsterdam have the most object listed for sale. Make a table of the top 10. 
 Then do the same thing but only for objects with a tuin which are listed for sale. 
@@ -73,4 +84,5 @@ In order to prevent any errors, the policy will attempt to retry when the follow
 
 ### Testing
 In order to test the application and make sure the new implementations work, I will be following [this article](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.2) 
-that explains how to better perform integration tests in .NET Core 2.2
+that explains how to better perform integration tests in .NET Core 2.2.
+
