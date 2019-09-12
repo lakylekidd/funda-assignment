@@ -21,16 +21,22 @@ namespace FundaWebApplication.Services
 
         public async Task<SearchResultModel> Get(string type, string location)
         {
-            // Construct the query string
+            // Construct the query string by calling the first page
             var url = generateUrlQueryString(type, location);
 
             // Initialize the http client
             using (HttpClient hc = new HttpClient())
             {
-                // Retrieve the initial page
+                // Retrieve the initial page and get results as JSON
                 var json = await hc.GetStringAsync(url);
-                // Test deserializer
+                // Convert the resulted JSON into a search result model
                 var result = JsonConvert.DeserializeObject<SearchResultModel>(json);
+                // Loop through pages and call remaining results
+                for (int i = 1; i <= result.Paging.AantalPaginas; i++)
+                {
+
+                }
+
                 return result;
             }
         }
