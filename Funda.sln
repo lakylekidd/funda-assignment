@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundaAssignment", "FundaAssignment\FundaAssignment.csproj", "{C7B85913-2A8D-4083-A1FD-849905E3F40B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A6E0E5-8399-4373-A78F-AF2EB15892FF}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundaWebApplication", "FundaWebApplication\FundaWebApplication.csproj", "{13B4911E-3B45-4F68-9526-EB019AD4E628}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +16,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C7B85913-2A8D-4083-A1FD-849905E3F40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7B85913-2A8D-4083-A1FD-849905E3F40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7B85913-2A8D-4083-A1FD-849905E3F40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7B85913-2A8D-4083-A1FD-849905E3F40B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13B4911E-3B45-4F68-9526-EB019AD4E628}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B4911E-3B45-4F68-9526-EB019AD4E628}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B4911E-3B45-4F68-9526-EB019AD4E628}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B4911E-3B45-4F68-9526-EB019AD4E628}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
