@@ -1,5 +1,9 @@
 ﻿namespace FundaWebApplication.Models
 {
+    /// <summary>
+    /// The property model determines a listing in the search results
+    /// It extends the base class <see cref="AgencyModel"/> as it also contains some needed information about the agency
+    /// </summary>
     public class PropertyModel : AgencyModel
     {
         /// <summary>
