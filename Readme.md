@@ -25,3 +25,34 @@ Even if the query includes `pageSize=n` where `n > 25`, the limit will still app
 In order to overcome this we will be implementing some policies based on the article  
 [Implement Http call retries with exponential bacckoff with HttpClientFactory and Polly policies](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 
 as this is the recommended approach for retries with exponential backoff.
+
+For this we will implement the following function:
+
+```
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+
+    #region Status Codes for Retrying
+        // Handle 500 status codes
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        // Handle 502 status codes
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadGateway)
+        // Handle 504 status codes
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+    #endregion
+
+        // Will retry a maximum of 6 times
+        .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+}
+```
+
+And include it inside the `ConfigureServices()` of the `Startup.cs` file:
+
+```
+// Configure the client with polly's retry policy
+services.AddHttpClient<IFundaService, FundaService>()
+    .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // Set the lifetime to 5 minutes
+    .AddPolicyHandler(GetRetryPolicy());
+```
