@@ -18,7 +18,8 @@ Installing the project is straight forward:
 7. Make sure `FundaWebApplication` is first on the list, use the arrows to arrange the order then click `OK`
 8. Select Start Without Debugging `Ctrl + F5`.
 
-Wait for the application to download all packages and npm modules and then the client browser window will launch
+Wait for the application to download all packages and npm modules and then the client browser window will launch.
+> **Note**: For this project to run you need to have ports: 60398, 56219, 5000 and 3000 available. Check launchSettings.json for port configurations for Client and API Projects.
 
 ## Assignment Description
 Determine which makelaar's in Amsterdam have the most object listed for sale. Make a table of the top 10. 
