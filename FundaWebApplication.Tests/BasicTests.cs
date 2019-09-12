@@ -6,14 +6,14 @@ namespace FundaWebApplication.Tests
 {
     public class BasicTests : IClassFixture<WebApplicationFactory<FundaWebApplication.Startup>>
     {
-        private readonly WebApplicationFactory<FundaWebApplication.Startup> _factory;
+        protected readonly WebApplicationFactory<FundaWebApplication.Startup> _factory;
 
         public BasicTests(WebApplicationFactory<FundaWebApplication.Startup> factory)
         {
             _factory = factory;
         }
 
-        [Theory]
+        [Theory(DisplayName ="Tests if all endpoints return html page")]
         [InlineData("/")]
         [InlineData("/Index")]
         [InlineData("/About")]
