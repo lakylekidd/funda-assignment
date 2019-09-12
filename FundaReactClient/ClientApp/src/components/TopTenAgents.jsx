@@ -8,15 +8,23 @@ export default class TopTenAgents extends Component {
 	};
 
 	loadTopAgents = () => {
+		// Request top ten agents
 		request
 			.get('http://localhost:60398/api/funda/top10')
 			.then((result) => {
-				console.log(result);
+				// Check if Result is successful
+				if (result.status === 200) {
+					// Assign the agents to the state
+					this.setState({
+						agents: result.body
+					});
+				}
 			})
 			.catch(console.error);
 	};
 
 	componentDidMount() {
+		// Start loading the agents
 		this.loadTopAgents();
 	}
 
@@ -24,7 +32,7 @@ export default class TopTenAgents extends Component {
 		return (
 			<div>
 				<h1>Top 10 Agents with most properties</h1>
-				<AgentTable agents="test" />
+				<AgentTable agents={this.state.agents} />
 			</div>
 		);
 	}
