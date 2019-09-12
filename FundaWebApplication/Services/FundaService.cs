@@ -39,20 +39,12 @@ namespace FundaWebApplication.Services
                 {
                     // Add all the properties in the list
                     properties.AddRange(result.Objects);
-                    try
-                    {
-                        // Construct the next url query
-                        url = generateUrlQueryString(type, location, i + 1);
-                        // Retrieve the next page and get results as JSON
-                        json = await _httpClient.GetStringAsync(url);
-                        // Convert the resulted JSON into a search result model
-                        result = JsonConvert.DeserializeObject<SearchResultModel>(json);
-                    }
-                    catch(HttpRequestException)
-                    {
-                        // For now we are returning the properties we managed to retrieve
-                        return properties;
-                    }
+                    // Construct the next url query
+                    url = generateUrlQueryString(type, location, i + 1);
+                    // Retrieve the next page and get results as JSON
+                    json = await _httpClient.GetStringAsync(url);
+                    // Convert the resulted JSON into a search result model
+                    result = JsonConvert.DeserializeObject<SearchResultModel>(json);
                 }
                 // Return the retrieved properties
                 return properties;
