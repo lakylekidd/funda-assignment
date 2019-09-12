@@ -5,6 +5,6 @@ namespace FundaWebApplication.Services
 {
     public interface IFundaService
     {
-        Task<PagingModel> Get();
+        Task<SearchResultModel> Get(string type, string location);
     }
 }

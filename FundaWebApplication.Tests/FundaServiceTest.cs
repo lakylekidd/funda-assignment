@@ -19,7 +19,7 @@ namespace FundaWebApplication.Tests
         [Fact]
         public async Task Test1()
         {
-            var res = await _fundaService.Get();
+            var res = await _fundaService.Get("koop", "/amsterdam/");
             Assert.NotNull(res);
         }
     }

@@ -12,21 +12,42 @@ namespace FundaWebApplication.Services
     {
         private readonly string _baseurl = "http://partnerapi.funda.nl/feeds/Aanbod.svc/json/";
         private readonly string _key = "ac1b0b1572524640a0ecc54de453ea9f";
+        private readonly int _pageSize = 25;
 
         public FundaService()
         {
-            
+
         }
 
-        public async Task<PagingModel> Get()
+        public async Task<SearchResultModel> Get(string type, string location)
         {
+            // Construct the query string
+            var url = generateUrlQueryString(type, location);
+
+            // Initialize the http client
             using (HttpClient hc = new HttpClient())
             {
-                var json = await hc.GetStringAsync("http://partnerapi.funda.nl/feeds/Aanbod.svc/json/ac1b0b1572524640a0ecc54de453ea9f/?type=koop&zo=/amsterdam/&pageSize=300");
+                var json = await hc.GetStringAsync(url);
                 // Test deserializer
-                var paging = JsonConvert.DeserializeObject<PagingModel>(json);
-                return paging;
+                var result = JsonConvert.DeserializeObject<SearchResultModel>(json);
+                return result;
             }
+        }
+
+        /// <summary>
+        /// Private function that constructs a url with a query string based on provided type and location
+        /// </summary>
+        /// <param name="type">The type of the listing</param>
+        /// <param name="location">The location of the listing</param>
+        /// <returns></returns>
+        private string generateUrlQueryString(string type, string location)
+        {
+            // Construct the query string
+            var query = $"?type={type}&zo={location}&pageSize={_pageSize}";
+            // Create the url query string
+            var url = $"{_baseurl}{_key}/{query}";
+            // Return the constructed url
+            return url;
         }
     }
 }
