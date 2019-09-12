@@ -7,6 +7,14 @@ In order to run the project you will need the following installed
 - [Visual Studio](https://visualstudio.microsoft.com/downloads/) *Community version should be fine!
 - [NodeJS v10.16.6](https://nodejs.org/en/download/) *Should install with Visual Studio if you select Node project development
 
+## Technologies Used
+For this project I used the following technologies
+- .NET Core 2.2
+- React.JS
+- C#
+- JavaScript
+- CSS
+
 ## Installation
 Installing the project is straight forward:
 1. Clone the Repository by running `git clone https://github.com/lakylekidd/funda-assignment.git funda-project`
