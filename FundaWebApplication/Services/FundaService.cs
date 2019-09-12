@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -61,7 +62,25 @@ namespace FundaWebApplication.Services
 
         public async Task<List<ResultByAgencyModel>> GetAgenciesWithMostPropertiesForSale(string location)
         {
-            throw new NotImplementedException();
+            // Retrieve a list of properties for sale in amsterdam
+            var properties = await Get("koop", location);
+            // Convert the properties into list of agencies with properties list
+            var agencies = from property in properties
+                           // That havent been sold yet
+                           where property.IsVerkocht == false
+                           // Group them by agency id
+                           group property by property.MakelaarId into gp
+                           // Create new result by agency model
+                           // And include the agency details
+                           // along with a list of properties
+                           select new ResultByAgencyModel
+                           {
+                               MakelaarId = gp.First().MakelaarId,
+                               MakelaarNaam = gp.First().MakelaarNaam,
+                               Properties = gp.ToList()
+                           };
+            // Return the agencies as a list ordered by the number of properties they have desc
+            return agencies.OrderByDescending(x => x.Properties.Count()).ToList();
         }
 
 
