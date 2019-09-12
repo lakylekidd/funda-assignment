@@ -17,9 +17,9 @@ namespace FundaWebApplication.Pages
             _fundaService = fundaService;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-
+            
         }
     }
 }

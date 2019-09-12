@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -12,12 +13,16 @@ namespace FundaWebApplication.Services
 
         public FundaService()
         {
-
+            
         }
 
-        public async Task<IEnumerable<string>> Get()
+        public async Task<string> Get()
         {
-            throw new NotImplementedException();
+            using (HttpClient hc = new HttpClient())
+            {
+                var json = await hc.GetStringAsync("http://partnerapi.funda.nl/feeds/Aanbod.svc/json/ac1b0b1572524640a0ecc54de453ea9f/?type=koop&zo=/amsterdam/&pageSize=300");
+                return json;
+            }
         }
     }
 }
