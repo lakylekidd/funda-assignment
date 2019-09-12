@@ -15,11 +15,6 @@ namespace FundaWebApplication.Services
         private readonly string _key = "ac1b0b1572524640a0ecc54de453ea9f";
         private readonly int _pageSize = 25;
 
-        public FundaService()
-        {
-
-        }
-
         public async Task<List<PropertyModel>> Get(string type, string location)
         {
             // Create a list that will hold a list of all properties in the query
